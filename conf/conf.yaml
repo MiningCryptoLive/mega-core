@@ -1,0 +1,5 @@
+services:
+  app: true
+  sharkpool_monitor: true
+  nginx: true
+  bonus_app: false
