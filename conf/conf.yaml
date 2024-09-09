@@ -1,5 +1,5 @@
 services:
-  app: true
-  sharkpool_monitor: true
+  dash: true
+  sharkui: true
   nginx: true
-  bonus_app: false
+  bonus: false

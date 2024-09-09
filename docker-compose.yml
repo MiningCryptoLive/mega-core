@@ -1,7 +1,6 @@
 version: '3.8'
-
 services:
-  database:
+  ui-db:
     image: postgres:latest
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-mining_db}
@@ -9,7 +8,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     volumes:
       - mining_db:/var/lib/postgresql/data
-      - ${INIT_SCRIPTS_DIR:-./scripts}:/docker-entrypoint-initdb.d
+      - ${INIT_SCRIPTS_DIR:-./sigs-mining-core/scripts}:/docker-entrypoint-initdb.d
     ports:
       - "${DB_PORT:-5431}:5432"
     healthcheck:
@@ -19,29 +18,29 @@ services:
       retries: 5
     restart: unless-stopped
 
-  app:
+  dash:
     image: ${APP_IMAGE:-ghcr.io/marctheshark3/sigmanaut-mining-pool-ui:main}
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-mining_db}
       POSTGRES_USER: ${POSTGRES_USER:-marctheshark}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-      POSTGRES_HOST: database
+      POSTGRES_HOST: ui-db
       PGDATA: /data/postgres
     build:
-      context: .
+      context: ./sigmanaut-mining-pool-ui
       dockerfile: Dockerfile
     volumes:
-      - ./:/app
+      - ./sigmanaut-mining-pool-ui:/app
       - ./conf/conf.yaml:/app/conf/conf.yaml
     ports:
       - "${APP_PORT:-8050}:8050"
     restart: unless-stopped
     depends_on:
-      database:
+      ui-db:
         condition: service_healthy
 
-  sharkpool-monitor:
-    build: ./sharkpool
+  sharkui:
+    build: ./miner-view
     expose:
       - "7681"
     command: ttyd -p 7681 python run.py
@@ -51,20 +50,22 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "${NGINX_PORT:-8080}:80"
+      - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./conf/conf.yaml:/app/conf/conf.yaml
     depends_on:
-      - sharkpool-monitor
+      - dash
+      - sharkui
+    restart: unless-stopped
 
-  bonus_app:
+  bonus:
     build:
-      context: .
+      context: ./sigs-mining-core
       dockerfile: bonus_dockerfile
     volumes:
-      - .:/app
-      - ./crontab/bonus-crontab:/etc/cron.d/bonus-cron
+      - ./sigs-mining-core:/app
+      - ./sigs-mining-core/crontab/bonus-crontab:/etc/cron.d/bonus-cron
       - ./logs:/var/log
       - ./conf/conf.yaml:/app/conf/conf.yaml
     env_file:
