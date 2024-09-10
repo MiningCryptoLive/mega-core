@@ -8,7 +8,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     volumes:
       - mining_db:/var/lib/postgresql/data
-      - ${INIT_SCRIPTS_DIR:-./sigs-mining-core/scripts}:/docker-entrypoint-initdb.d
     ports:
       - "${DB_PORT:-5431}:5432"
     healthcheck:
@@ -31,7 +30,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./sigmanaut-mining-pool-ui:/app
-      - ./conf/conf.yaml:/app/conf/conf.yaml
     ports:
       - "${APP_PORT:-8050}:8050"
     restart: unless-stopped
@@ -44,8 +42,8 @@ services:
     expose:
       - "7681"
     command: ttyd -p 7681 python run.py
-    volumes:
-      - ./conf/conf.yaml:/app/conf/conf.yaml
+    # volumes:
+      # - ./conf/conf.yaml:/app/conf/conf.yaml
 
   nginx:
     image: nginx:latest
@@ -58,18 +56,6 @@ services:
       - dash
       - sharkui
     restart: unless-stopped
-
-  bonus:
-    build:
-      context: ./sigs-mining-core
-      dockerfile: bonus_dockerfile
-    volumes:
-      - ./sigs-mining-core:/app
-      - ./sigs-mining-core/crontab/bonus-crontab:/etc/cron.d/bonus-cron
-      - ./logs:/var/log
-      - ./conf/conf.yaml:/app/conf/conf.yaml
-    env_file:
-      - .env
 
 volumes:
   mining_db:

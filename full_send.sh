@@ -2,7 +2,6 @@
 set -e
 
 # Install necessary packages
-apk add --no-cache py3-pip
 pip install pyyaml
 
 # Read the configuration
