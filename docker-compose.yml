@@ -53,7 +53,7 @@ services:
     depends_on:
       - dash
       - sharkui
-      - miningcore-api
+      # - miningcore-api
     restart: unless-stopped
 
   bonus:
@@ -65,6 +65,7 @@ services:
       - ./logs:/var/log
     env_file:
       - .env
+      
   # mirror_db:
   #   image: postgres:12
   #   container_name: mirror_db
