@@ -67,7 +67,7 @@ services:
       - .env
       
   # mirror_db:
-  #   image: postgres:12
+  #   image: postgres:12 
   #   container_name: mirror_db
   #   environment:
   #     POSTGRES_DB: ${POSTGRES_DB}
