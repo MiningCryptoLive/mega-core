@@ -74,6 +74,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
+      REPLICATION_USER:  ${REPLICATION_USER}
+      REPLICATION_PASSWORD:  ${REPLICATION_PASSWORD}
     volumes:
       - postgres_mirror_data:/var/lib/postgresql/data
       - ./conf/postgresql.conf:/etc/postgresql/postgresql.conf:ro
