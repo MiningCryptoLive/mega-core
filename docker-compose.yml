@@ -66,30 +66,30 @@ services:
     env_file:
       - .env
 
-  mirror_db:
-    image: postgres:12
-    container_name: mirror_db
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ./data:/var/lib/postgresql/data
-      - ./conf/postgresql.conf:/etc/postgresql/postgresql.conf
-      - ./conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
-      - ./conf/pg_ident.conf:/var/lib/postgresql/data/pg_ident.conf
-    ports:
-      - "5434:5432"
-    command: 
-      - "postgres"
-      - "-c"
-      - "config_file=/etc/postgresql/postgresql.conf"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
+  # mirror_db:
+  #   image: postgres:12
+  #   container_name: mirror_db
+  #   environment:
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - ./data:/var/lib/postgresql/data
+  #     - ./conf/postgresql.conf:/etc/postgresql/postgresql.conf
+  #     - ./conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+  #     - ./conf/pg_ident.conf:/var/lib/postgresql/data/pg_ident.conf
+  #   ports:
+  #     - "5434:5432"
+  #   command: 
+  #     - "postgres"
+  #     - "-c"
+  #     - "config_file=/etc/postgresql/postgresql.conf"
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   restart: unless-stopped
 
   miningcore-api:
     build: ./mining-wave/secondary_server/api
