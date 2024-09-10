@@ -75,9 +75,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./data:/var/lib/postgresql/data
-      - ./mining-wave/secondary_wave/conf/postgresql.conf:/etc/postgresql/postgresql.conf
-      - ./mining-wave/secondary_wave/conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
-      - ./mining-wave/secondary_wave/conf/pg_ident.conf:/var/lib/postgresql/data/pg_ident.conf
+      - ./mining-wave/secondary_server/conf/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./mining-wave/secondary_server/conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+      - ./mining-wave/secondary_server/conf/pg_ident.conf:/var/lib/postgresql/data/pg_ident.conf
     ports:
       - "5434:5432"
     command: 
@@ -92,8 +92,8 @@ services:
     restart: unless-stopped
 
   miningcore-api:
-    build: ./mining-wave/secondary_wave/api
-    container_name: fastapi_service
+    build: ./mining-wave/secondary_server/api
+    container_name: miningcore-api
     ports:
       - "8000:8000"
     environment:
