@@ -3,3 +3,6 @@ services:
   sharkui: true
   nginx: true
   bonus: false
+  mirror_db: true
+  miningcore-api:api
+  
