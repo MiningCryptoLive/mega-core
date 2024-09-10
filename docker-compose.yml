@@ -42,8 +42,6 @@ services:
     expose:
       - "7681"
     command: ttyd -p 7681 python run.py
-    # volumes:
-      # - ./conf/conf.yaml:/app/conf/conf.yaml
 
   nginx:
     image: nginx:latest
@@ -55,8 +53,8 @@ services:
     depends_on:
       - dash
       - sharkui
+      - miningcore-api  # Add this line to ensure nginx waits for the API
     restart: unless-stopped
-
 
   bonus:
     build:
@@ -67,8 +65,6 @@ services:
       - ./logs:/var/log
     env_file:
       - .env
-
-  version: '3'
 
   mirror_db:
     image: postgres:12
@@ -104,7 +100,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - DB_HOST=postgres_secondary
+      - DB_HOST=mirror_db
       - DB_PORT=5432
     depends_on:
       mirror_db:
