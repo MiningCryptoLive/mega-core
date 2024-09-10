@@ -53,7 +53,7 @@ services:
     depends_on:
       - dash
       - sharkui
-      - miningcore-api  # Add this line to ensure nginx waits for the API
+      - miningcore-api
     restart: unless-stopped
 
   bonus:
@@ -67,41 +67,34 @@ services:
       - .env
 
   mirror_db:
-  image: postgres:12
-  container_name: mirror_db
-  environment:
-    POSTGRES_DB: ${POSTGRES_DB}
-    POSTGRES_USER: ${POSTGRES_USER}
-    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    PGDATA: /var/lib/postgresql/data/pgdata
-  volumes:
-    - postgres_mirror_data:/var/lib/postgresql/data
-    - ./conf/postgresql.conf:/etc/postgresql/postgresql.conf:ro
-    - ./conf/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
-    - ./conf/pg_ident.conf:/etc/postgresql/pg_ident.conf:ro
-  ports:
-    - "5434:5432"
-  command: 
-    - "postgres"
-    - "-c"
-    - "config_file=/etc/postgresql/postgresql.conf"
-    - "-c"
-  
-  healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-    interval: 10s
-    timeout: 5s
-    retries: 5
-  restart: unless-stopped
-
-volumes:
-  postgres_mirror_data:
-
-volumes:
-  postgres_mirror_data:
-
-volumes:
-  postgres_mirror_data:
+    image: postgres:12
+    container_name: mirror_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_mirror_data:/var/lib/postgresql/data
+      - ./conf/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./conf/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./conf/pg_ident.conf:/etc/postgresql/pg_ident.conf:ro
+    ports:
+      - "5434:5432"
+    command: 
+      - "postgres"
+      - "-c"
+      - "config_file=/etc/postgresql/postgresql.conf"
+      - "-c"
+      - "hba_file=/etc/postgresql/pg_hba.conf"
+      - "-c"
+      - "ident_file=/etc/postgresql/pg_ident.conf"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
   miningcore-api:
     build: ./mining-wave/secondary_server/api
@@ -121,3 +114,4 @@ volumes:
 
 volumes:
   mining_db:
+  postgres_mirror_data:
