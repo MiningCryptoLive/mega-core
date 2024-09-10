@@ -73,17 +73,18 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./data:/var/lib/postgresql/mirror/
-      - ./conf/postgresql.conf:/etc/postgresql/mirror/postgresql.conf
-      - ./conf/pg_hba.conf:/var/lib/postgresql/mirror/pg_hba.conf
-      - ./conf/pg_ident.conf:/var/lib/postgresql/mirror/pg_ident.conf
+      - ./conf/postgresql.conf:/etc/postgresql/data/pgdata/postgresql.conf
+      - ./conf/pg_hba.conf:/var/lib/postgresql/data/pgdata/pg_hba.conf
+      - ./conf/pg_ident.conf:/var/lib/postgresql/data/pgdata/pg_ident.conf
     ports:
       - "5434:5432"
     command: 
       - "postgres"
       - "-c"
-      - "config_file=/etc/postgresql/postgresql.conf"
+      - "config_file=/var/lib/postgresql/data/pgdata/postgresql.conf"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
