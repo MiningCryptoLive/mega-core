@@ -5,12 +5,6 @@ set -e
 if [ -z "$(ls -A "$PGDATA")" ]; then
     echo "Initializing mirror database..."
     
-    # Stop PostgreSQL if it's running
-    pg_ctl -D "$PGDATA" -m fast -w stop || true
-    
-    # Clear PGDATA
-    rm -rf "$PGDATA"/*
-    
     # Take a base backup from the primary
     PGPASSWORD=$REPLICATION_PASSWORD pg_basebackup -h $PRIMARY_IP -p $PRIMARY_PORT -D "$PGDATA" -U $REPLICATION_USER -v -P -X stream
     
@@ -22,8 +16,10 @@ if [ -z "$(ls -A "$PGDATA")" ]; then
 primary_conninfo = 'host=$PRIMARY_IP port=$PRIMARY_PORT user=$REPLICATION_USER password=$REPLICATION_PASSWORD'
 restore_command = 'cp /var/lib/postgresql/data/pgdata/pg_wal/%f %p'
 EOF
-
     echo "Mirror database initialized and configured for replication."
 else
     echo "PGDATA is not empty. Skipping initialization."
 fi
+
+# Start PostgreSQL
+exec postgres -c config_file=/etc/postgresql/postgresql.conf
