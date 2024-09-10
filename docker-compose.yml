@@ -57,5 +57,18 @@ services:
       - sharkui
     restart: unless-stopped
 
+
+  bonus:
+    build:
+      context: ./sigs-mining-core
+      dockerfile: bonus_dockerfile
+    volumes:
+      - ./sigs-mining-core:/app
+      # - ./sigs-mining-core/crontab/bonus-crontab:/etc/cron.d/bonus-cron  OVERRIDING
+      - ./logs:/var/log
+      # - ./conf/conf.yaml:/app/conf/conf.yaml
+    env_file:
+      - .env
+
 volumes:
   mining_db:
