@@ -1,30 +1,30 @@
 version: '3.8'
 services:
-  ui-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-mining_db}
-      POSTGRES_USER: ${POSTGRES_USER:-marctheshark}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-    volumes:
-      - mining_db:/var/lib/postgresql/mining/
-    ports:
-      - "${DB_PORT:-5431}:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-marctheshark} -d ${POSTGRES_DB:-mining_db}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: unless-stopped
+  # ui-db:
+  #   image: postgres:latest
+  #   environment:
+  #     POSTGRES_DB: ${POSTGRES_DB:-mining_db}
+  #     POSTGRES_USER: ${POSTGRES_USER:-marctheshark}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+  #   volumes:
+  #     - mining_db:/var/lib/postgresql/mining/
+  #   ports:
+  #     - "${DB_PORT:-5431}:5432"
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-marctheshark} -d ${POSTGRES_DB:-mining_db}"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   restart: unless-stopped
 
   dash:
     image: ${APP_IMAGE:-ghcr.io/marctheshark3/sigmanaut-mining-pool-ui:main}
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-mining_db}
-      POSTGRES_USER: ${POSTGRES_USER:-marctheshark}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-      POSTGRES_HOST: ui-db
-      PGDATA: /data/postgres
+    # environment:
+    #   POSTGRES_DB: ${POSTGRES_DB:-mining_db}
+    #   POSTGRES_USER: ${POSTGRES_USER:-marctheshark}
+    #   POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    #   POSTGRES_HOST: ui-db
+    #   PGDATA: /data/postgres
     build:
       context: ./sigmanaut-mining-pool-ui
       dockerfile: Dockerfile
@@ -33,8 +33,8 @@ services:
     ports:
       - "${APP_PORT:-8050}:8050"
     restart: unless-stopped
-    depends_on:
-      ui-db:
+    # depends_on:
+    #   ui-db:
         condition: service_healthy
 
   sharkui:
@@ -56,15 +56,15 @@ services:
       # - miningcore-api
     restart: unless-stopped
 
-  bonus:
-    build:
-      context: ./sigs-mining-core
-      dockerfile: bonus_dockerfile
-    volumes:
-      - ./sigs-mining-core:/app
-      - ./logs:/var/log
-    env_file:
-      - .env
+  # bonus:
+  #   build:
+  #     context: ./sigs-mining-core
+  #     dockerfile: bonus_dockerfile
+  #   volumes:
+  #     - ./sigs-mining-core:/app
+  #     - ./logs:/var/log
+  #   env_file:
+  #     - .env
       
   # mirror_db:
   #   image: postgres:12 
