@@ -34,7 +34,10 @@ services:
       - sharkui
       # - miningcore-api
     restart: unless-stopped
-
+    
+networks:
+  default:
+    name: MEGA-NET
   # bonus:
   #   build:
   #     context: ./sigs-mining-core
