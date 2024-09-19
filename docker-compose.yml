@@ -2,7 +2,6 @@ version: '3.8'
 services:
   dash:
     image: ${APP_IMAGE:-ghcr.io/marctheshark3/sigmanaut-mining-pool-ui:main}
-    container_name: ergominers
     build:
       context: ./sigmanaut-mining-pool-ui
       dockerfile: Dockerfile
