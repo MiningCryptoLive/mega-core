@@ -1,31 +1,8 @@
 version: '3.8'
 services:
-  # ui-db:
-  #   image: postgres:latest
-  #   environment:
-  #     POSTGRES_DB: ${POSTGRES_DB:-mining_db}
-  #     POSTGRES_USER: ${POSTGRES_USER:-marctheshark}
-  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-  #   volumes:
-  #     - mining_db:/var/lib/postgresql/mining/
-  #   ports:
-  #     - "${DB_PORT:-5431}:5432"
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-marctheshark} -d ${POSTGRES_DB:-mining_db}"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-  #   restart: unless-stopped
-
   dash:
     image: ${APP_IMAGE:-ghcr.io/marctheshark3/sigmanaut-mining-pool-ui:main}
     container_name: ergominers
-    # environment:
-    #   POSTGRES_DB: ${POSTGRES_DB:-mining_db}
-    #   POSTGRES_USER: ${POSTGRES_USER:-marctheshark}
-    #   POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-    #   POSTGRES_HOST: ui-db
-    #   PGDATA: /data/postgres
     build:
       context: ./sigmanaut-mining-pool-ui
       dockerfile: Dockerfile
@@ -34,8 +11,6 @@ services:
     ports:
       - "${APP_PORT:-8050}:8050"
     restart: unless-stopped
-    # depends_on:
-    #   ui-db:
         condition: service_healthy
 
   sharkui:
@@ -110,7 +85,3 @@ services:
   #     mirror_db:
   #       condition: service_healthy 
   #   restart: unless-stopped
-
-volumes:
-  mining_db:
-  postgres_mirror_data:
