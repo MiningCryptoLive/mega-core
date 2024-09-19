@@ -19,6 +19,7 @@ services:
 
   dash:
     image: ${APP_IMAGE:-ghcr.io/marctheshark3/sigmanaut-mining-pool-ui:main}
+    container_name: ergominers
     # environment:
     #   POSTGRES_DB: ${POSTGRES_DB:-mining_db}
     #   POSTGRES_USER: ${POSTGRES_USER:-marctheshark}
