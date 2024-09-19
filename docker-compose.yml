@@ -11,7 +11,11 @@ services:
     ports:
       - "${APP_PORT:-8050}:8050"
     restart: unless-stopped
-        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8050"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   sharkui:
     build: ./miner-view
