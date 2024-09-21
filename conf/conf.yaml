@@ -1,8 +1,9 @@
 services:
   dash: true
-  sharkui: true
+  miner-id-minter: true
+  sharkui: false
   nginx: true
   bonus: false
-  mirror_db: true
-  miningcore-api:api
+
+
   
