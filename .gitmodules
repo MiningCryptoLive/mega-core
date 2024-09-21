@@ -1,12 +1,12 @@
 [submodule "mining-wave"]
 	path = mining-wave
-	url = git@github.com:marctheshark3/mining-wave.git
+	url = https://github.com/marctheshark3/mining-wave.git
 [submodule "miner-view"]
 	path = miner-view
-	url = git@github.com:marctheshark3/miner-view.git
+	url = https://github.com/marctheshark3/miner-view.git
 [submodule "sigmanaut-mining-pool-ui"]
 	path = sigmanaut-mining-pool-ui
-	url = git@github.com:marctheshark3/sigmanaut-mining-pool-ui.git
+	url = https://github.com/marctheshark3/sigmanaut-mining-pool-ui.git
 [submodule "sigs-mining-core"]
 	path = sigs-mining-core
-	url = git@github.com:marctheshark3/sigs-mining-core.git
+	url = https://github.com/marctheshark3/sigs-mining-core.git
