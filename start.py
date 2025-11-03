@@ -32,21 +32,33 @@ def read_config():
 
 def start_services(config):
     services = config.get('services', {})
-    
-    # Always start the database
-    subprocess.run(['docker-compose', 'up', '-d', 'ui-db'])
-    
-    for service, enabled in services.items():
-        if enabled:
-            print(f"Starting {service} service...")
-            subprocess.run(['docker-compose', 'up', '-d', service])
-        else:
-            print(f"{service} service is disabled in configuration.")
 
-    # Always start nginx last
-    if services.get('nginx', True):  # Default to True if not specified
-        print("Starting nginx service...")
-        subprocess.run(['docker-compose', 'up', '-d', 'nginx'])
+    # Define startup order for proper dependencies
+    startup_order = [
+        'postgres',      # Database first
+        'redis',         # Cache second
+        'miningcore',    # Pool third (depends on DB and Redis)
+        'mining-wave-api',  # API (depends on DB)
+        'nurse-shark-bot',  # Bot
+        'nginx'          # Nginx last (reverse proxy for everything)
+    ]
+
+    print("\nStarting services in dependency order...\n")
+
+    for service in startup_order:
+        if services.get(service, False):
+            print(f"✓ Starting {service}...")
+            result = subprocess.run(
+                ['docker-compose', 'up', '-d', service],
+                capture_output=True,
+                text=True
+            )
+            if result.returncode != 0:
+                print(f"  ✗ Error starting {service}: {result.stderr}")
+            else:
+                print(f"  ✓ {service} started successfully")
+        else:
+            print(f"⊘ {service} is disabled in configuration")
 
 if __name__ == "__main__":
     print_banner()

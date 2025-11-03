@@ -1,12 +1,9 @@
 [submodule "mining-wave"]
 	path = mining-wave
 	url = https://github.com/marctheshark3/mining-wave.git
-[submodule "miner-view"]
-	path = miner-view
-	url = https://github.com/marctheshark3/miner-view.git
-[submodule "sigmanaut-mining-pool-ui"]
-	path = sigmanaut-mining-pool-ui
-	url = https://github.com/marctheshark3/sigmanaut-mining-pool-ui.git
-[submodule "sigs-mining-core"]
-	path = sigs-mining-core
-	url = https://github.com/marctheshark3/sigs-mining-core.git
+[submodule "ergo-miningcore"]
+	path = ergo-miningcore
+	url = https://github.com/marctheshark3/ergo-miningcore.git
+[submodule "Nurse-Shark-Bot"]
+	path = Nurse-Shark-Bot
+	url = https://github.com/The-Last-Byte-Bar/Nurse-Shark-Bot.git

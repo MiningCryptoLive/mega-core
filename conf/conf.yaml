@@ -1,9 +1,16 @@
+# Sigmanaut Mining Pool - Service Configuration
+# Enable/disable services as needed for your deployment
+
 services:
-  dash: true
-  miner-id-minter: true
-  sharkui: false
-  nginx: true
-  bonus: false
+  # Pool Server Services (Performance Critical)
+  postgres: true           # PostgreSQL database
+  redis: true             # Redis cache
+  miningcore: true        # Ergo mining pool software
+
+  # Services (APIs, Dashboards, Bots)
+  mining-wave-api: true   # Custom API for pool statistics
+  nurse-shark-bot: true   # Telegram notification bot
+  nginx: true             # Nginx reverse proxy
 
 
   
