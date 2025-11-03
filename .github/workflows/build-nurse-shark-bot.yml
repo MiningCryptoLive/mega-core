@@ -18,8 +18,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  # Note: This uses the-last-byte-bar organization
-  IMAGE_NAME: the-last-byte-bar/nurse-shark-bot
+  IMAGE_NAME: ${{ github.repository_owner }}/nurse-shark-bot
 
 jobs:
   build-and-push:

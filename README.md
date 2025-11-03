@@ -321,7 +321,7 @@ Images are automatically built via GitHub Actions and published to GitHub Contai
 ```bash
 ghcr.io/marctheshark3/ergo-miningcore:latest
 ghcr.io/marctheshark3/mining-wave:latest
-ghcr.io/the-last-byte-bar/nurse-shark-bot:latest
+ghcr.io/marctheshark3/nurse-shark-bot:latest
 ```
 
 ### Local Builds
