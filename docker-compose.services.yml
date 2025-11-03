@@ -1,4 +1,4 @@
-# Sigmanaut Mining Pool - Services Server Only
+# SIGS MEGA CORE - Services Server Only
 # Deploy this on a separate server for dashboards, APIs, and bots
 # This connects to a remote PostgreSQL database on the pool server
 # Requires: POOL_SERVER_IP to be set in .env
@@ -32,6 +32,8 @@ services:
       retries: 3
 
   # Nurse Shark Bot - Telegram notification bot for pool monitoring
+  # REQUIRES: Telegram bot token and chat ID configuration
+  # To disable: Set nurse-shark-bot: false in conf/conf.yaml
   nurse-shark-bot:
     image: ${NURSE_SHARK_BOT_IMAGE:-ghcr.io/the-last-byte-bar/nurse-shark-bot:latest}
     build:

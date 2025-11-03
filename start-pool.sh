@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo -e "${GREEN}=== Starting Sigmanaut Mining Pool (Pool Server Only) ===${NC}\n"
+echo -e "${GREEN}=== Starting SIGS MEGA CORE (Pool Server Only) ===${NC}\n"
 
 # Check if .env exists
 if [ ! -f .env ]; then

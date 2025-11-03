@@ -15,11 +15,11 @@ NC='\033[0m' # No Color
 
 echo -e "${BLUE}"
 cat << "EOF"
- ______     __     ______     __    __     ______     __   __     ______     __  __     ______
-/\  ___\   /\ \   /\  ___\   /\ "-./  \   /\  __ \   /\ "-.\ \   /\  __ \   /\ \/\ \   /\__  _\
-\ \___  \  \ \ \  \ \ \__ \  \ \ \-./\ \  \ \  __ \  \ \ \-.  \  \ \  __ \  \ \ \_\ \  \/_/\ \/
- \/\_____\  \ \_\  \ \_____\  \ \_\ \ \_\  \ \_\ \_\  \ \_\\"\_\  \ \_\ \_\  \ \_____\    \ \_\
-  \/_____/   \/_/   \/_____/   \/_/  \/_/   \/_/\/_/   \/_/ \/_/   \/_/\/_/   \/_____/     \/_/
+ ______     __     ______     ______
+/\  ___\   /\ \   /\  ___\   /\  ___\
+\ \___  \  \ \ \  \ \ \__ \  \ \___  \
+ \/\_____\  \ \_\  \ \_____\  \/\_____\
+  \/_____/   \/_/   \/_____/   \/_____/
 
  __    __     ______     ______     ______
 /\ "-./  \   /\  ___\   /\  ___\   /\  __ \
@@ -35,7 +35,20 @@ cat << "EOF"
 EOF
 echo -e "${NC}"
 
-echo -e "${GREEN}=== Sigmanaut Mining Pool Setup ===${NC}\n"
+echo -e "${GREEN}"
+cat << "EOF"
+╔══════════════════════════════════════════════════════════╗
+║  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓    ▓▓▓▓▓▓   ▓▓▓▓▓▓▓                   ║
+║  ▓▓       ▓▓   ▓▓   ▓▓        ▓▓   ▓▓                   ║
+║  ▓▓▓▓▓    ▓▓▓▓▓▓▓  ▓▓  ▓▓▓▓  ▓▓   ▓▓   [MINING POOL]   ║
+║  ▓▓       ▓▓  ▓▓    ▓▓    ▓▓  ▓▓   ▓▓                   ║
+║  ▓▓▓▓▓▓▓  ▓▓   ▓▓    ▓▓▓▓▓▓   ▓▓▓▓▓▓▓   >>>ONLINE<<<    ║
+╚══════════════════════════════════════════════════════════╝
+    [ BLOCKCHAIN MINING // PROOF-OF-WORK // ERGO ]
+EOF
+echo -e "${NC}"
+
+echo -e "${GREEN}=== SIGS MEGA CORE Setup ===${NC}\n"
 
 # Check if git is installed
 if ! command -v git &> /dev/null; then
@@ -78,14 +91,22 @@ if [ ! -f Nurse-Shark-Bot/config.yaml ]; then
     if [ -f Nurse-Shark-Bot/config.yaml.sample ]; then
         echo -e "${YELLOW}Creating config.yaml from sample${NC}"
         cp Nurse-Shark-Bot/config.yaml.sample Nurse-Shark-Bot/config.yaml
-        echo -e "${YELLOW}⚠ IMPORTANT: Edit Nurse-Shark-Bot/config.yaml and add your bot token!${NC}"
+        echo ""
+        echo -e "${RED}⚠ CRITICAL: Telegram Bot Configuration Required!${NC}"
+        echo -e "${YELLOW}1. Get bot token from @BotFather on Telegram${NC}"
+        echo -e "${YELLOW}2. Add bot to your Telegram group/channel${NC}"
+        echo -e "${YELLOW}3. Get chat ID from bot API${NC}"
+        echo -e "${YELLOW}4. Edit Nurse-Shark-Bot/config.yaml with your credentials${NC}"
+        echo -e "${YELLOW}5. Add Ergo wallet addresses to monitor${NC}"
+        echo ""
+        echo -e "${BLUE}See README.md 'Telegram Bot Configuration' section for detailed setup${NC}"
     else
         echo -e "${YELLOW}Warning: config.yaml.sample not found in Nurse-Shark-Bot${NC}"
     fi
 else
     echo -e "${YELLOW}config.yaml already exists, skipping${NC}"
 fi
-echo -e "${GREEN}✓ Bot configuration ready${NC}\n"
+echo -e "${GREEN}✓ Bot configuration file ready${NC}\n"
 
 echo -e "${BLUE}[5/5]${NC} Checking deployment mode..."
 if [ -f .env ]; then

@@ -1,4 +1,4 @@
-# Sigmanaut Mining Pool - Service Configuration
+# SIGS MEGA CORE - Service Configuration
 # Enable/disable services as needed for your deployment
 
 services:
@@ -9,7 +9,7 @@ services:
 
   # Services (APIs, Dashboards, Bots)
   mining-wave-api: true   # Custom API for pool statistics
-  nurse-shark-bot: true   # Telegram notification bot
+  nurse-shark-bot: true   # Telegram bot (requires config.yaml setup - set to false to disable)
   nginx: true             # Nginx reverse proxy
 
 

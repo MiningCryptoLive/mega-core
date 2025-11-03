@@ -1,4 +1,4 @@
-# Sigmanaut Mining Pool - Full Stack Deployment
+# SIGS MEGA CORE - Full Stack Deployment
 # This compose file runs all services on a single server
 # For production, consider using docker-compose.pool.yml and docker-compose.services.yml separately
 
@@ -123,6 +123,8 @@ services:
       retries: 3
 
   # Nurse Shark Bot - Telegram notification bot for pool monitoring
+  # REQUIRES: Telegram bot token and chat ID configuration
+  # To disable: Set nurse-shark-bot: false in conf/conf.yaml
   nurse-shark-bot:
     image: ${NURSE_SHARK_BOT_IMAGE:-ghcr.io/the-last-byte-bar/nurse-shark-bot:latest}
     build:

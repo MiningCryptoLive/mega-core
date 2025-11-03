@@ -1,9 +1,9 @@
 ```
- ______     __     ______     __    __     ______     __   __     ______     __  __     ______
-/\  ___\   /\ \   /\  ___\   /\ "-./  \   /\  __ \   /\ "-.\ \   /\  __ \   /\ \/\ \   /\__  _\
-\ \___  \  \ \ \  \ \ \__ \  \ \ \-./\ \  \ \  __ \  \ \ \-.  \  \ \  __ \  \ \ \_\ \  \/_/\ \/
- \/\_____\  \ \_\  \ \_____\  \ \_\ \ \_\  \ \_\ \_\  \ \_\\"\_\  \ \_\ \_\  \ \_____\    \ \_\
-  \/_____/   \/_/   \/_____/   \/_/  \/_/   \/_/\/_/   \/_/ \/_/   \/_/\/_/   \/_____/     \/_/
+ ______     __     ______     ______
+/\  ___\   /\ \   /\  ___\   /\  ___\
+\ \___  \  \ \ \  \ \ \__ \  \ \___  \
+ \/\_____\  \ \_\  \ \_____\  \/\_____\
+  \/_____/   \/_/   \/_____/   \/_____/
 
  __    __     ______     ______     ______
 /\ "-./  \   /\  ___\   /\  ___\   /\  __ \
@@ -16,11 +16,20 @@
 \ \ \____  \ \ \/\ \  \ \  __<   \ \  __\
  \ \_____\  \ \_____\  \ \_\ \_\  \ \_____\
   \/_____/   \/_____/   \/_/ /_/   \/_____/
+
+╔══════════════════════════════════════════════════════════╗
+║  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓▓    ▓▓▓▓▓▓   ▓▓▓▓▓▓▓                   ║
+║  ▓▓       ▓▓   ▓▓   ▓▓        ▓▓   ▓▓                   ║
+║  ▓▓▓▓▓    ▓▓▓▓▓▓▓  ▓▓  ▓▓▓▓  ▓▓   ▓▓   [MINING POOL]   ║
+║  ▓▓       ▓▓  ▓▓    ▓▓    ▓▓  ▓▓   ▓▓                   ║
+║  ▓▓▓▓▓▓▓  ▓▓   ▓▓    ▓▓▓▓▓▓   ▓▓▓▓▓▓▓   >>>ONLINE<<<    ║
+╚══════════════════════════════════════════════════════════╝
+    [ BLOCKCHAIN MINING // PROOF-OF-WORK // ERGO ]
 ```
 
-# Sigmanaut Mining Pool - Operations Hub
+# SIGS MEGA CORE - Mining Pool Operations Hub
 
-**Ergo Mining Pool Operations Core** - A comprehensive, production-ready hub for deploying and managing an Ergo cryptocurrency mining pool with supporting services.
+**SIGS MEGA CORE** - A comprehensive, production-ready hub for deploying and managing an Ergo cryptocurrency mining pool with supporting services for the Sigmanaut community.
 
 ## 📋 Table of Contents
 
@@ -40,7 +49,7 @@
 
 ## 🎯 Overview
 
-This repository serves as the **central orchestration hub** for the Sigmanaut Mining Pool infrastructure. It brings together multiple components to provide:
+This repository serves as the **central orchestration hub** for the SIGS mining pool infrastructure. It brings together multiple components to provide:
 
 - **Ergo Mining Pool**: Full-featured mining pool software based on [Miningcore](https://github.com/marctheshark3/ergo-miningcore)
 - **Custom API**: RESTful API for pool statistics via [Mining Wave](https://github.com/marctheshark3/mining-wave)
@@ -124,7 +133,10 @@ cd sigs-mega-core
 # 3. Configure your environment
 nano .env
 
-# 4. Configure Telegram bot (if using Nurse Shark Bot)
+# 4. Configure Telegram bot (REQUIRED for notifications)
+# - Get bot token from @BotFather on Telegram
+# - Get chat ID from bot API
+# - See "Telegram Bot Configuration" section below for details
 nano Nurse-Shark-Bot/config.yaml
 
 # 5. Configure pool settings
@@ -233,6 +245,70 @@ Edit `ergo-miningcore/config/ergo-public-pool.json` for:
 - Minimum payout thresholds
 - Vardiff settings
 - Pool branding
+
+### Telegram Bot Configuration
+
+The Nurse Shark Bot requires Telegram API credentials. Edit `Nurse-Shark-Bot/config.yaml`:
+
+#### Step 1: Create a Telegram Bot
+
+1. Message [@BotFather](https://t.me/BotFather) on Telegram
+2. Send `/newbot` command
+3. Follow prompts to name your bot
+4. Copy the **bot token** (looks like `123456789:ABCdefGHIjklMNOpqrsTUVwxyz`)
+
+#### Step 2: Get Chat IDs
+
+**For a regular chat/group:**
+1. Add your bot to the group
+2. Send a test message in the group
+3. Visit: `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates`
+4. Find `"chat":{"id":-1001234567890}` in the JSON response
+
+**For a forum/topic channel:**
+- The `topic_id` is the message thread ID visible in the URL
+
+#### Step 3: Configure the Bot
+
+```yaml
+# Nurse-Shark-Bot/config.yaml
+
+# Ergo blockchain explorer
+explorer:
+  url: "https://api.ergoplatform.com/api/v1"
+  max_retries: 5
+  retry_delay: 3.0
+
+# Telegram bot credentials
+telegram:
+  bot_token: "123456789:ABCdefGHIjklMNOpqrsTUVwxyz"  # From @BotFather
+  default_chat_id: "-1001234567890"  # Main notification chat
+  default_topic_id: null  # Optional: specific forum topic
+
+# Addresses to monitor (pool wallet, payout wallet, etc.)
+addresses:
+  - address: "9g1p6UU8XoAeU4yGPLpbTHYiG8aBHKfNFZbL8VaNLJZ3vN3jVyP"
+    nickname: "Pool Hot Wallet"
+    telegram_destinations:
+      - chat_id: "-1001234567890"
+        topic_id: null
+
+  - address: "9fN8S6DqVXKm7tPPqF4xH2DLjG8D5TPBL4bKuNm8FxZp2VwNQsX"
+    nickname: "Pool Payout Wallet"
+    telegram_destinations:
+      - chat_id: "-1001234567890"
+        topic_id: 1  # If using forum topics
+```
+
+#### What the Bot Monitors
+
+- Incoming transactions to pool wallets
+- Outgoing payouts to miners
+- Balance changes
+- Transaction confirmations
+- Unusual activity alerts
+
+**Note:** You can disable the bot by setting `nurse-shark-bot: false` in `conf/conf.yaml`
 
 ---
 
@@ -344,6 +420,32 @@ docker-compose logs miningcore
 
 # Verify pool config
 cat ergo-miningcore/config/ergo-public-pool.json
+```
+
+#### Telegram bot not working
+
+```bash
+# Check bot logs
+docker-compose logs nurse-shark-bot
+
+# Verify bot token is correct
+# Test bot manually: https://api.telegram.org/bot<YOUR_TOKEN>/getMe
+
+# Common issues:
+# 1. Bot token invalid or expired
+#    - Create new bot with @BotFather if needed
+# 2. Bot not added to chat/group
+#    - Add bot to your Telegram group with admin rights
+# 3. Incorrect chat ID
+#    - Get updates: https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates
+#    - Send message in group first, then check updates
+# 4. Missing addresses to monitor
+#    - Add wallet addresses in config.yaml
+# 5. Explorer API issues
+#    - Check if https://api.ergoplatform.com/api/v1 is accessible
+
+# To disable bot temporarily
+# Set nurse-shark-bot: false in conf/conf.yaml
 ```
 
 ### Reset Everything

@@ -1,4 +1,4 @@
-# Sigmanaut Mining Pool - Pool Server Only (Performance Critical)
+# SIGS MEGA CORE - Pool Server Only (Performance Critical)
 # Deploy this on a dedicated server for optimal mining pool performance
 # This includes: PostgreSQL, Redis, Miningcore, and basic Nginx
 
