@@ -99,25 +99,30 @@ services:
   mining-wave-api:
     image: ${MINING_WAVE_IMAGE:-ghcr.io/marctheshark3/mining-wave:latest}
     build:
-      context: ./mining-wave/secondary_server
+      context: ./mining-wave
       dockerfile: Dockerfile
     container_name: sigs-mining-wave-api
     restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
-      - POSTGRES_USER=${POSTGRES_USER:-miningcore}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme123}
-      - POSTGRES_DB=${POSTGRES_DB:-miningcore}
+      - DB_USER=${POSTGRES_USER:-miningcore}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-changeme123}
+      - DB_NAME=${POSTGRES_DB:-miningcore}
+      - REDIS_URL=${MINING_WAVE_REDIS_URL:-redis://redis:6379/0}
+      - DEBUG=${MINING_WAVE_DEBUG:-false}
+      - ALLOWED_ORIGINS=${MINING_WAVE_ALLOWED_ORIGINS:-}
     ports:
       - "${MINING_WAVE_PORT:-8000}:8000"
     networks:
       - mega-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3

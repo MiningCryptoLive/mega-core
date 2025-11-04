@@ -221,6 +221,12 @@ STRATUM_SSL_PORT_2=8888
 
 # For split deployment
 POOL_SERVER_IP=  # IP of pool server (for services-only mode)
+
+# Mining Wave API
+MINING_WAVE_PORT=8000
+MINING_WAVE_REDIS_URL=redis://redis:6379/0
+MINING_WAVE_DEBUG=false
+MINING_WAVE_ALLOWED_ORIGINS=
 ```
 
 ### Service Control (conf/conf.yaml)
