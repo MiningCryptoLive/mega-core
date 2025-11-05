@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  miningcore:
+    volumes:
+      - ./ssl/pool.pfx:/app/certs/pool.pfx:ro
+  mining-wave-api:
+    environment:
+      TELEGRAM_BOT_TOKEN: "1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHI"
+      TELEGRAM_CHAT_ID: "0"
+networks:
+  mega-net:
+    external: true
+    name: ergo-node_ergo-network
