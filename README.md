@@ -147,6 +147,10 @@ nano ergo-miningcore/config/ergo-public-pool.json
 ./start-all.sh
 ```
 
+Once the stack is running, open the dashboard:
+- Public view: `http://localhost:8888/public/`
+- Operator view (password optional): `http://localhost:8888/admin/`
+
 That's it! Your mining pool should now be running.
 
 ---
@@ -197,6 +201,8 @@ Best for: Production pools with high traffic
 - Mining Wave API: 8000
 - Dashboard: 8888
 - Nginx: 80, 443
+
+> **Note:** When running split deployments, set `DASHBOARD_API_URL=http://<pool-server-ip>:${MININGCORE_API_PORT}` in the services server `.env` so the dashboard proxies to the remote Miningcore instance.
 
 ---
 
@@ -402,6 +408,12 @@ docker ps --format "table {{.Names}}\t{{.Status}}"
 - **API proxy:** requests to `/api/*` are forwarded to the Miningcore API defined by `DASHBOARD_API_URL` (defaults to the internal `miningcore:4000` service).
 - **Disable/Enable:** Toggle `mining-dashboard` in `conf/conf.yaml` if you do not need the UI.
 - **Split deployment:** set `DASHBOARD_API_URL` to `http://<pool-server-ip>:${MININGCORE_API_PORT}` so the dashboard can reach the pool server’s API.
+
+### Customization
+
+- `DASHBOARD_PORT` – change the listener port (defaults to `8888`).
+- `DASHBOARD_API_URL` – override the upstream Miningcore API endpoint if the dashboard runs on a different host.
+- Reverse proxy (e.g., Nginx) can front the dashboard by forwarding `/public/` or `/admin/` to the container.
 
 ---
 
