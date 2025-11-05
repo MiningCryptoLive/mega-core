@@ -2,7 +2,7 @@
 # ===========================================
 # Sigmanaut Mining Pool - Services Server Start
 # ===========================================
-# Starts only services (Mining Wave API, Nurse Shark Bot, Nginx)
+# Starts only services (Mining Wave API, Dashboard, Nurse Shark Bot, Nginx)
 # Requires connection to remote pool server
 
 set -e
@@ -38,6 +38,8 @@ if [ ! -d mining-wave/secondary_server ]; then
     exit 1
 fi
 
+DASHBOARD_PORT_VALUE=${DASHBOARD_PORT:-8888}
+
 echo -e "${BLUE}Pool server IP: ${POOL_SERVER_IP}${NC}"
 echo -e "${BLUE}Testing connection to pool server database...${NC}\n"
 
@@ -69,8 +71,10 @@ echo -e "${GREEN}✓ Services server started!${NC}"
 echo -e "${GREEN}========================================${NC}\n"
 
 echo -e "${YELLOW}Service URLs:${NC}"
-echo -e "  Mining Wave API:  ${BLUE}http://localhost:8000${NC}"
-echo -e "  Nginx Proxy:      ${BLUE}http://localhost${NC}\n"
+echo -e "  Mining Wave API:   ${BLUE}http://localhost:8000${NC}"
+echo -e "  Dashboard Public:  ${BLUE}http://localhost:${DASHBOARD_PORT_VALUE}/public/${NC}"
+echo -e "  Dashboard Admin:   ${BLUE}http://localhost:${DASHBOARD_PORT_VALUE}/admin/${NC}"
+echo -e "  Nginx Proxy:       ${BLUE}http://localhost${NC}\n"
 
 echo -e "${YELLOW}Useful commands:${NC}"
 echo -e "  View logs:        ${BLUE}docker-compose -f docker-compose.services.yml logs -f${NC}"

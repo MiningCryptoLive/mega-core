@@ -102,6 +102,7 @@ This repository serves as the **central orchestration hub** for the SIGS mining 
 | **Ergo Miningcore** | Mining pool software with Stratum support | [ergo-miningcore](https://github.com/marctheshark3/ergo-miningcore) |
 | **Mining Wave** | Custom API for pool statistics and data | [mining-wave](https://github.com/marctheshark3/mining-wave) |
 | **Nurse Shark Bot** | Telegram bot for notifications and monitoring | [Nurse-Shark-Bot](https://github.com/The-Last-Byte-Bar/Nurse-Shark-Bot) |
+| **Mining Dashboard** | Terminal-themed public & operator UI backed by Miningcore API | Built-in (`ergo-miningcore/dashboard`) |
 
 ### Infrastructure
 
@@ -164,6 +165,8 @@ Best for: Testing, small pools, or cost-conscious deployments
 - Mining (Stratum): `stratum+tcp://localhost:4444`
 - Pool API: `http://localhost:4000/api/pools`
 - Mining Wave API: `http://localhost:8000`
+- Dashboard (Public): `http://localhost:8888/public/`
+- Dashboard (Operator): `http://localhost:8888/admin/`
 
 ---
 
@@ -192,6 +195,7 @@ Best for: Production pools with high traffic
 
 **Exposed Services:**
 - Mining Wave API: 8000
+- Dashboard: 8888
 - Nginx: 80, 443
 
 ---
@@ -227,6 +231,10 @@ MINING_WAVE_PORT=8000
 MINING_WAVE_REDIS_URL=redis://redis:6379/0
 MINING_WAVE_DEBUG=false
 MINING_WAVE_ALLOWED_ORIGINS=
+
+# Mining Dashboard UI
+DASHBOARD_PORT=8888
+DASHBOARD_API_URL=
 ```
 
 ### Service Control (conf/conf.yaml)
@@ -239,6 +247,7 @@ services:
   redis: true             # Redis cache
   miningcore: true        # Mining pool
   mining-wave-api: true   # Custom API
+  mining-dashboard: true  # Public & operator UI
   nurse-shark-bot: true   # Telegram bot
   nginx: true             # Reverse proxy
 ```
@@ -328,6 +337,7 @@ Images are automatically built via GitHub Actions and published to GitHub Contai
 ghcr.io/marctheshark3/ergo-miningcore:latest
 ghcr.io/marctheshark3/mining-wave:latest
 ghcr.io/marctheshark3/nurse-shark-bot:latest
+ghcr.io/marctheshark3/ergo-pool-dashboard:latest
 ```
 
 ### Local Builds
@@ -382,6 +392,16 @@ All services include Docker health checks. Check status:
 ```bash
 docker ps --format "table {{.Names}}\t{{.Status}}"
 ```
+
+---
+
+## 🖥️ Dashboard Access
+
+- **Public view:** `http://localhost:8888/public/`
+- **Operator view:** `http://localhost:8888/admin/`
+- **API proxy:** requests to `/api/*` are forwarded to the Miningcore API defined by `DASHBOARD_API_URL` (defaults to the internal `miningcore:4000` service).
+- **Disable/Enable:** Toggle `mining-dashboard` in `conf/conf.yaml` if you do not need the UI.
+- **Split deployment:** set `DASHBOARD_API_URL` to `http://<pool-server-ip>:${MININGCORE_API_PORT}` so the dashboard can reach the pool server’s API.
 
 ---
 
@@ -484,6 +504,7 @@ sigs-mega-core/
 ├── ergo-miningcore/        # Submodule: Mining pool software
 ├── mining-wave/            # Submodule: Custom API
 ├── Nurse-Shark-Bot/        # Submodule: Telegram bot
+├── dashboard-service/      # Container wrapper for the dashboard UI
 ├── logs/                   # Service logs
 ├── ssl/                    # SSL certificates
 ├── docker-compose.yml      # All-in-one deployment

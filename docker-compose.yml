@@ -127,6 +127,30 @@ services:
       timeout: 10s
       retries: 3
 
+  # Operator & public dashboard for Miningcore metrics
+  mining-dashboard:
+    image: ${POOL_DASHBOARD_IMAGE:-ghcr.io/marctheshark3/ergo-pool-dashboard:latest}
+    build:
+      context: .
+      dockerfile: dashboard-service/Dockerfile
+    container_name: sigs-mining-dashboard
+    restart: unless-stopped
+    depends_on:
+      miningcore:
+        condition: service_healthy
+    environment:
+      - DASHBOARD_PORT=${DASHBOARD_PORT:-8888}
+      - API_BASE_URL=${DASHBOARD_API_URL:-http://miningcore:4000}
+    ports:
+      - "${DASHBOARD_PORT:-8888}:${DASHBOARD_PORT:-8888}"
+    networks:
+      - mega-net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:${DASHBOARD_PORT:-8888}/public/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   # Nurse Shark Bot - Telegram notification bot for pool monitoring
   # REQUIRES: Telegram bot token and chat ID configuration
   # To disable: Set nurse-shark-bot: false in conf/conf.yaml
