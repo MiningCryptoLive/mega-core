@@ -48,6 +48,7 @@ def start_services(config):
         'redis',         # Cache second
         'miningcore',    # Pool third (depends on DB and Redis)
         'mining-wave-api',  # API (depends on DB)
+        'mining-dashboard', # Web dashboard (depends on API)
         'nurse-shark-bot',  # Bot
         'nginx'          # Nginx last (reverse proxy for everything)
     ]

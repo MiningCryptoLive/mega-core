@@ -28,6 +28,8 @@ if [ ! -f ergo-miningcore/Dockerfile ]; then
     exit 1
 fi
 
+DASHBOARD_PORT_VALUE=${DASHBOARD_PORT:-8888}
+
 echo -e "${BLUE}Starting all services using docker-compose.yml...${NC}\n"
 
 # Start all services
@@ -43,6 +45,8 @@ echo -e "${GREEN}========================================${NC}\n"
 echo -e "${YELLOW}Service URLs:${NC}"
 echo -e "  Miningcore API:   ${BLUE}http://localhost:4000/api/pools${NC}"
 echo -e "  Mining Wave API:  ${BLUE}http://localhost:8000${NC}"
+echo -e "  Dashboard Public: ${BLUE}http://localhost:${DASHBOARD_PORT_VALUE}/public/${NC}"
+echo -e "  Dashboard Admin:  ${BLUE}http://localhost:${DASHBOARD_PORT_VALUE}/admin/${NC}"
 echo -e "  Stratum (mining): ${BLUE}stratum+tcp://localhost:4444${NC}"
 echo -e "  Stratum SSL:      ${BLUE}stratum+ssl://localhost:7777${NC}\n"
 
