@@ -10,7 +10,7 @@ services:
   # Services (APIs, Dashboards, Bots)
   mining-wave-api: true   # Custom API for pool statistics
   mining-dashboard: true  # Terminal-themed web dashboard (public & operator views)
-  nurse-shark-bot: true   # Telegram bot (requires config.yaml setup - set to false to disable)
+  nurse-shark-bot: false   # Telegram bot (requires config.yaml setup - set to false to disable)
   nginx: true             # Nginx reverse proxy
 
 
